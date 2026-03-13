@@ -92,7 +92,8 @@ class Ways:
                             else:
                                 reel_sym_count += 1
 
-                    ways *= reel_sym_count
+                    MAX_WAYS_PER_REEL= 3
+                    ways *= min(reel_sym_count, MAX_WAYS_PER_REEL)
 
                 else:
                     break
