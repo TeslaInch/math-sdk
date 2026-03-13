@@ -3,7 +3,7 @@
 
 from typing import List, Dict
 from src.calculations.board import Board
-
+import math
 
 def apply_mult(
     board: Board,
@@ -26,7 +26,7 @@ def apply_mult(
 
 def apply_global_mult(win_amount: float, global_multiplier: int) -> tuple:
     """Enhance win global multiplier"""
-    return (round(win_amount * global_multiplier, 2), global_multiplier)
+    return (math.floor(win_amount * global_multiplier * 100) / 100, global_multiplier)
 
 
 def apply_added_symbol_mult(board: Board, win_amount: float, positions: List[Dict], multiplier_key: str) -> tuple:
@@ -38,7 +38,7 @@ def apply_added_symbol_mult(board: Board, win_amount: float, positions: List[Dic
             and board[pos["reel"]][pos["row"]].get_attribute(multiplier_key) > 1
         ):
             symbol_multiplier += board[pos["reel"]][pos["row"]].get_attribute(multiplier_key)
-    return (round(win_amount * max(symbol_multiplier, 1), 2), max(symbol_multiplier, 1))
+    return (math.floor(win_amount * max(symbol_multiplier, 1) * 100) / 100, max(symbol_multiplier, 1))
 
 
 def apply_combined_mult(
@@ -46,4 +46,4 @@ def apply_combined_mult(
 ) -> tuple:
     """Apply symbol multipliers and then global multiplier"""
     win, sym_mult = apply_added_symbol_mult(board, win_amount, positions, multiplier_key)
-    return (win * global_multiplier  , sym_mult * global_multiplier)
+    return (math.floor(win * global_multiplier * 100) / 100, sym_mult * global_multiplier)
